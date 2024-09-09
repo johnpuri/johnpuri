@@ -12,9 +12,15 @@ jobs:
     - uses: actions/checkout@v3
       with:
         token: ${{ secrets.PAT }}
-    - name: Update README
+    - name: Install tzdata
       run: |
-        sed -i "s/Last Updated: .*/Last Updated: $(date -u +'%Y-%m-%d %H:%M:%S UTC')/" README.md
+        sudo apt-get update
+        sudo apt-get install -y tzdata
+    - name: Update README
+      env:
+        TZ: 'America/New_York'  # Raleigh, NC is in the America/New_York time zone
+      run: |
+        sed -i "s/Last Updated: .*/Last Updated: $(date +'%Y-%m-%d %H:%M:%S %Z')/" README.md
     - name: Commit and push if changed
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
