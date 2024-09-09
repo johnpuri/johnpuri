@@ -9,14 +9,15 @@ jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PAT }}
     - name: Update README
       run: |
         sed -i "s/Last Updated: .*/Last Updated: $(date -u +'%Y-%m-%d %H:%M:%S UTC')/" README.md
     - name: Commit and push if changed
       run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         git add README.md
-        git diff --quiet && git diff --staged --quiet || git commit -m "Update README"
-        git push
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update README" && git push)
