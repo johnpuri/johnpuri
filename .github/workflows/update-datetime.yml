@@ -1,0 +1,30 @@
+name: Update Date Time
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # Runs every 12 hours
+
+jobs:
+  update-datetime:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup timezone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "America/New_York"
+          
+      - name: Update date and time
+        run: |
+          echo "Last updated: $(date)" > datetime.txt
+          
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add datetime.txt
+          git commit -m "Update datetime: $(date)"
+          git push
