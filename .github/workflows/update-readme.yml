@@ -21,10 +21,18 @@ jobs:
         TZ: 'America/New_York'  
       run: |
         sed -i "s/Last Updated: .*/Last Updated: $(date +'%Y-%m-%d %H:%M:%S %Z')/" README.md
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PAT }}
+        fetch-depth: 0
+    
     - name: Commit and push if changed
       run: |
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git pull origin main --rebase
         git add README.md
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Update README" && git push)
+        git commit -m "Update README" || echo "No changes to commit"
+        git fetch origin main
+        git reset --hard origin/main
+        git cherry-pick ORIG_HEAD
+        git push --force-with-lease origin main
