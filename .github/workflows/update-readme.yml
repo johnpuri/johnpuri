@@ -32,7 +32,4 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git add README.md
         git commit -m "Update README" || echo "No changes to commit"
-        git fetch origin main
-        git reset --hard origin/main
-        git cherry-pick ORIG_HEAD
-        git push --force-with-lease origin main
+        git push -f origin main
