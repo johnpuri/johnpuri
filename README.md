@@ -12,4 +12,4 @@ I've graduated in Computer Science from Towson University with experience in Jav
 ---
 ![](https://komarev.com/ghpvc/?username=johnpuri&color=blueviolet)
 
-Last Updated: 2025-01-30 20:14:13 EST
+Last Updated: 2025-01-31 20:17:56 EST
